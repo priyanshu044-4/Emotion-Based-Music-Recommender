@@ -1,17 +1,18 @@
 {
-    "version": 2,
-    "builds": [
-      {
-        "src": "backend/app.py",
-        "use": "@vercel/python"
-      }
-    ],
-    "routes": [
-      {
-        "src": "/recommend-music",
-        "methods": ["POST"],
-        "dest": "backend/app.py"
-      }
-    ]
-  }
-  
+  "version": 2,
+  "builds": [
+    {
+      "src": "backend/app.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/recommend-music",
+      "methods": [
+        "POST"
+      ],
+      "dest": "backend/app.py"
+    }
+  ]
+}
