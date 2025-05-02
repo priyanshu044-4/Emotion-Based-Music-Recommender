@@ -1,0 +1,20 @@
+# Python
+*.pyc
+__pycache__/
+
+# Node modules
+backend/node_modules/
+
+# Environment variables
+*.env
+
+# Cache or temporary files
+.cache/
+.DS_Store
+*.log
+
+# VSCode settings (optional)
+.vscode/
+
+# OS-specific
+Thumbs.db
