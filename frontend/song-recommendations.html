@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Song Recommendations</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Songs Based on Your Emotion</h1>
+
+    <!-- Back Button -->
+    <button class="back-button" onclick="goBack()">⬅️ Back</button>
+
+    <div class="error" id="error"></div>
+    <div class="recommendations" id="recommendations"></div>
+  </div>
+
+  <script>
+    // Function to go back to the previous page (home page)
+    function goBack() {
+      window.location.href = "index.html"; // Use this to reliably go back to homepage
+    }
+
+    // Function to render the recommended songs
+    function renderRecommendations(tracks) {
+      const recommendationsContainer = document.getElementById("recommendations");
+      recommendationsContainer.innerHTML = ""; // Clear the container before adding new tracks
+
+      tracks.forEach((track) => {
+        // Create elements for each track
+        const trackElement = document.createElement("div");
+        trackElement.classList.add("track");
+
+        const trackName = document.createElement("h3");
+        trackName.textContent = track.name;
+
+        const trackArtist = document.createElement("p");
+        trackArtist.textContent = `Artist: ${track.artist}`;
+
+        const trackImage = document.createElement("img");
+        trackImage.src = track.image;
+        trackImage.alt = track.name + " cover";
+        trackImage.classList.add("track-image");
+
+        // Add track details to the trackElement
+        trackElement.appendChild(trackImage);
+        trackElement.appendChild(trackName);
+        trackElement.appendChild(trackArtist);
+        
+        // Add the trackElement to the recommendations container
+        recommendationsContainer.appendChild(trackElement);
+      });
+    }
+
+    // Fetch the recommendations from the backend API
+    fetch("/recommend-music", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ emotion: "Happy" }) // Example: Change based on user input
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.error) {
+        document.getElementById("error").textContent = data.error;
+      } else {
+        renderRecommendations(data.tracks);
+      }
+    })
+    .catch(error => {
+      document.getElementById("error").textContent = "An error occurred while fetching recommendations.";
+      console.error("Error fetching data:", error);
+    });
+  </script>
+
+  <script src="recommendations.js"></script>
+</body>
+</html>
