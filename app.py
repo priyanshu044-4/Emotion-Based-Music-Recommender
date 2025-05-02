@@ -13,7 +13,8 @@ CORS(app)
 logging.basicConfig(level=logging.DEBUG)
 
 # Load environment variables from .env file
-load_dotenv()
+if not load_dotenv():
+    raise ValueError("Could not load environment variables from .env file.")
 
 client_id = os.getenv('SPOTIFY_CLIENT_ID')
 client_secret = os.getenv('SPOTIFY_CLIENT_SECRET')
@@ -43,26 +44,33 @@ emotion_to_mood = {
 @app.route('/recommend-music', methods=['POST'])
 def recommend_music():
     try:
+        # Get emotion from the request body
         data = request.get_json()
         emotion = data.get('emotion')
 
         if not emotion:
             return jsonify({'error': 'Emotion is required'}), 400
 
+        # Map emotion to mood for Spotify query
         mood = emotion_to_mood.get(emotion, 'instrumental')
+
+        # Start by searching with an offset to avoid showing the same results
         offset = random.randint(0, 30)
         results = sp.search(q=mood, limit=20, offset=offset, type='track')
 
+        # If no results found, return error
         if not results['tracks']['items']:
             return jsonify({'error': 'No tracks found for this mood'}), 404
 
+        # Prepare the response with track details
         tracks = []
-        for track in results['tracks']['items'][:9]:
+        for track in results['tracks']['items'][:9]:  # Limit to 9 tracks
+            image = track['album']['images'][1]['url'] if len(track['album']['images']) > 1 else track['album']['images'][0]['url']
             tracks.append({
                 'name': track['name'],
                 'artist': track['artists'][0]['name'],
                 'external_url': track['external_urls']['spotify'],
-                'image': track['album']['images'][1]['url'] if len(track['album']['images']) > 1 else None,
+                'image': image,
             })
 
         return jsonify({'tracks': tracks})
@@ -75,6 +83,5 @@ def recommend_music():
         app.logger.error(f"Unhandled Error: {str(e)}")
         return jsonify({'error': f'Server error: {str(e)}'}), 500
 
-# DO NOT RUN app.run() – Vercel handles this automatically
-# if __name__ == '__main__':
-#     app.run(debug=True)
+if __name__ == '__main__':
+    app.run(debug=True)
