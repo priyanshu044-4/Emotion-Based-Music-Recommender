@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Emotion-Based Spotify Music Recommender</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <div class="container">
+        <h1>Emotion-Based Spotify Music Recommender</h1>
+
+        <label for="emotion">Select your emotion:</label>
+        <select id="emotion">
+            <option value="" selected disabled>🔎Choose an Emotion</option>
+            <option value="Happy">😊 Happy</option>
+            <option value="Sad">😢 Sad</option>
+            <option value="Angry">😡 Angry</option>
+            <option value="Excited">🤩 Excited</option>
+            <option value="Relaxed">😌 Relaxed</option>
+            <option value="Bored">😑 Bored</option>
+            <option value="Neutral">😐 Neutral</option>
+        </select>
+
+        <button id="getRecommendations">Get Recommendations</button>
+
+        <div id="error" class="error"></div>
+
+        <!-- Carousel Wrapper -->
+        <div class="carousel-container">
+            <button class="scroll-btn left">&#8249;</button>
+            <div class="recommendations" id="recommendations"></div>
+            <button class="scroll-btn right">&#8250;</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

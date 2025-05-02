@@ -1,0 +1,264 @@
+/* General body styles */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-image: url('images/piano background.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    height: 100vh;
+    width: 100vw;
+    color: #fff;
+    background-color: #000;
+    transition: background-color 0.3s ease;  /* Smooth background transition */
+}
+
+/* Heading styles */
+h1 {
+    text-align: center;
+    color: #1db954;
+    margin-top: 20px;
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Added text shadow */
+}
+
+/* Basic styling for the container */
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+}
+
+/* Style for the label */
+label[for="emotion"] {
+    font-size: 1.2rem; /* Increase font size */
+    font-weight: bold; /* Make the text bold */
+    color: #fff; /* White color for contrast */
+    margin-bottom: 10px;
+    display: block; /* Block display to push the dropdown below */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6); /* Add shadow for better visibility */
+}
+
+/* Style for the dropdown menu */
+#emotion {
+    background-color: #333;
+    color: white;
+    border: 1px solid #555;
+    padding: 12px 20px;
+    font-size: 16px;
+    width: 100%;
+    border-radius: 25px;
+    appearance: none;
+    outline: none;
+    transition: background-color 0.3s ease;
+    position: relative;
+    margin-top: 5px; /* Add space above the dropdown */
+}
+
+/* Style for the search icon inside the dropdown */
+#emotion::before {
+    content: '\f002'; /* Font Awesome search icon */
+    font-family: 'FontAwesome';
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #aaa;
+    font-size: 18px;
+}
+
+/* Style for the dropdown options */
+#emotion option {
+    background-color: #333;
+    color: white;
+}
+
+/* Style for the button */
+#getRecommendations {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 20px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    display: inline-block;
+    text-transform: uppercase;
+    font-weight: bold; /* Added font weight for emphasis */
+}
+
+/* Hover effect for the button */
+#getRecommendations:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+}
+
+/* Error message styling */
+.error {
+    color: red;
+    margin-top: 10px;
+}
+
+/* Recommendations container */
+.recommendations {
+    display: flex;
+    overflow-x: scroll;
+    gap: 20px;
+    padding: 20px;
+    scroll-snap-type: x mandatory;
+    position: relative;
+    transition: transform 0.3s ease; /* Smooth scrolling */
+}
+
+/* Hide scrollbar for a clean look */
+.recommendations::-webkit-scrollbar {
+    display: none;
+}
+
+/* Individual track styling */
+.track {
+    min-width: 300px;
+    max-width: 320px;
+    height: 400px;
+    background-color: #282828;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    box-sizing: border-box;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    scroll-snap-align: start;
+}
+
+/* Hover effect on track */
+.track:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Track cover styling */
+.track-cover {
+    width: 100%;
+    height: 250px;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #444;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.track-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+/* Track info styling */
+.track-info {
+    color: white;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 10px 0;
+}
+
+/* Track name styling */
+.track-name {
+    font-weight: bold;
+    font-size: 1.1em;
+    color: #1db954;
+    text-decoration: none;
+    margin-top: 10px;
+    line-height: 1.2;
+    min-height: 2.6em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+/* Artist styling */
+.track-artist {
+    font-size: 0.9em;
+    color: #b3b3b3;
+    margin-top: 4px;
+}
+
+/* Track name hover effect */
+.track-name:hover {
+    text-decoration: underline;
+}
+
+/* Scroll buttons styling */
+.scroll-btn {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 10px;
+    border-radius: 50%;
+    font-size: 24px;
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+    transition: background-color 0.3s ease;
+    display: none; /* Initially hidden */
+}
+
+/* Hover effect on scroll buttons */
+.scroll-btn:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+/* Left arrow positioning */
+.scroll-btn.left {
+    left: 10px;
+}
+
+/* Right arrow positioning */
+.scroll-btn.right {
+    right: 10px;
+}
+
+/* Show arrows on hover over recommendations */
+.recommendations:hover .scroll-btn {
+    display: block;
+}
+
+/* Smooth transition for showing recommendations */
+.recommendations.show {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.5s ease, transform 0.3s ease;
+}
+
+/* Loading spinner animation */
+.spinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #1db954;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    margin: auto;
+}
+
+/* Spinner animation */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
