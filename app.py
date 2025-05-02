@@ -12,16 +12,17 @@ app = Flask(__name__)
 CORS(app)
 logging.basicConfig(level=logging.DEBUG)
 
-# Load environment variables
+# Load environment variables from .env file
 load_dotenv()
 
 client_id = os.getenv('SPOTIFY_CLIENT_ID')
 client_secret = os.getenv('SPOTIFY_CLIENT_SECRET')
 
+# Check if Spotify credentials exist
 if not client_id or not client_secret:
     raise ValueError("Spotify credentials not found in .env file.")
 
-# Initialize Spotify
+# Set up Spotify client
 client_credentials_manager = SpotifyClientCredentials(
     client_id=client_id,
     client_secret=client_secret
@@ -42,27 +43,21 @@ emotion_to_mood = {
 @app.route('/recommend-music', methods=['POST'])
 def recommend_music():
     try:
-        # Get emotion from the request body
         data = request.get_json()
         emotion = data.get('emotion')
 
         if not emotion:
             return jsonify({'error': 'Emotion is required'}), 400
 
-        # Map emotion to mood for Spotify query
         mood = emotion_to_mood.get(emotion, 'instrumental')
-
-        # Start by searching with an offset to avoid showing the same results
         offset = random.randint(0, 30)
         results = sp.search(q=mood, limit=20, offset=offset, type='track')
 
-        # If no results found, return error
         if not results['tracks']['items']:
             return jsonify({'error': 'No tracks found for this mood'}), 404
 
-        # Prepare the response with track details (no filtering by preview_url)
         tracks = []
-        for track in results['tracks']['items'][:9]:  # Limit to 8 tracks
+        for track in results['tracks']['items'][:9]:
             tracks.append({
                 'name': track['name'],
                 'artist': track['artists'][0]['name'],
@@ -72,9 +67,14 @@ def recommend_music():
 
         return jsonify({'tracks': tracks})
 
-    except Exception as e:
-        app.logger.error(f"Error: {str(e)}")
-        return jsonify({'error': f'Error retrieving recommendations: {str(e)}'}), 500
+    except spotipy.exceptions.SpotifyException as e:
+        app.logger.error(f"Spotify API Error: {str(e)}")
+        return jsonify({'error': f'Spotify error: {str(e)}'}), 500
 
-if __name__ == '__main__':
-    app.run(debug=True)
+    except Exception as e:
+        app.logger.error(f"Unhandled Error: {str(e)}")
+        return jsonify({'error': f'Server error: {str(e)}'}), 500
+
+# DO NOT RUN app.run() – Vercel handles this automatically
+# if __name__ == '__main__':
+#     app.run(debug=True)
