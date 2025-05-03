@@ -1,16 +1,12 @@
 {
   "version": 2,
   "builds": [
-    {
-      "src": "backend/app.py",
-      "use": "@vercel/python"
-    }
+    { "src": "backend/app.py", "use": "@vercel/python" }
   ],
   "routes": [
-    {
-      "src": "/recommend-music",
-      "methods": ["POST"],
-      "dest": "backend/app.py"
-    }
+    // Rewrites so /recommend-music goes to our new Serverless Function
+    { "src": "/recommend-music", "methods": ["POST"], "dest": "/api/recommend-music.py" },
+    // Serve static frontend files under /frontend
+    { "src": "/(.*)",       "dest": "/frontend/$1" }
   ]
 }
