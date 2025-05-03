@@ -1,5 +1,4 @@
 {
-  "version": 2,
   "builds": [
     {
       "src": "backend/app.py",
@@ -8,10 +7,7 @@
   ],
   "routes": [
     {
-      "src": "/recommend-music",
-      "methods": [
-        "POST"
-      ],
+      "src": "/(.*)",
       "dest": "backend/app.py"
     }
   ]

@@ -1,11 +1,14 @@
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 import os
+from dotenv import load_dotenv
+
+load_dotenv()  # Make sure environment variables are loaded
 
 def get_recommendations(emotion):
     sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials(
-        client_id=os.getenv("SPOTIPY_CLIENT_ID"),
-        client_secret=os.getenv("SPOTIPY_CLIENT_SECRET")
+        client_id=os.getenv("SPOTIFY_CLIENT_ID"),
+        client_secret=os.getenv("SPOTIFY_CLIENT_SECRET")
     ))
 
     emotion_to_genre = {
